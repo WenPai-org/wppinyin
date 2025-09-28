@@ -9,9 +9,8 @@ class ComposerStaticInitfce5bc5e02a56019246923b5dfc6dbfc
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        'dc1275c308c5b416beb314b6317daca2' => __DIR__ . '/..' . '/overtrue/pinyin/src/const.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -97,11 +96,8 @@ class ComposerStaticInitfce5bc5e02a56019246923b5dfc6dbfc
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'WenPai\\Framework\\Fields' => __DIR__ . '/../..' . '/framework/class-fields.php',
-        'WenPai\\Framework\\Meta_Box' => __DIR__ . '/../..' . '/framework/class-meta-box.php',
-        'WenPai\\Framework\\Setting' => __DIR__ . '/../..' . '/framework/class-setting.php',
+        'Stringable' => __DIR__ . '/..' . '/myclabs/php-enum/stubs/Stringable.php',
         'WenPai\\PinYin\\Src\\PinYin' => __DIR__ . '/../..' . '/src/class-pinyin.php',
-        'WenPai\\PinYin\\Src\\Slug' => __DIR__ . '/../..' . '/src/class-slug.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

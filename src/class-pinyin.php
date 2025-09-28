@@ -8,6 +8,7 @@
 namespace WenPai\PinYin\Src;
 
 use Overtrue\Pinyin\Pinyin as PinYinClass;
+use Overtrue\Pinyin\ToneStyle;
 use PHPHtmlParser\Dom;
 
 if ( !class_exists( PinYin::class ) ) {
@@ -178,7 +179,7 @@ if ( !class_exists( PinYin::class ) ) {
             );
             $matches = $this->preg_match_to_md5( $content_original , $preg_array );
 
-            $pinyin = new PinYinClass( '\\Overtrue\\Pinyin\\MemoryFileDictLoader' );
+            $pinyin = new PinYinClass();
             $html_tags = self::ZHUYIN_ELE;
             $dom = new Dom;
             $dom->loadStr( $matches['content'] );
@@ -188,8 +189,8 @@ if ( !class_exists( PinYin::class ) ) {
                     $ruby_line = '<ruby>';
                     foreach ( my_mb_str_split( $line->text ) as $char ) {
                         if ( preg_match( "/[\x{4e00}-\x{9fa5}]/u", $char ) ) {
-                            $pinyin_str = $pinyin->convert( $char, PINYIN_TONE );
-                            $pinyin_str = isset( $pinyin_str[0] ) ? $pinyin_str[0] : '';
+                            $pinyin_result = PinYinClass::sentence( $char );
+                            $pinyin_str = (string) $pinyin_result;
                             $ruby_line .= "{$char}<rp>(</rp><rt>{$pinyin_str}</rt><rp>)</rp>";
                         } else {
                             $ruby_line .= '</ruby>';

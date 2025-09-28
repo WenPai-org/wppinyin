@@ -7,9 +7,9 @@
 
 if ( ! function_exists( 'wppy_get_option' ) ) {
     function wppy_get_option( string $option, string $section, $default = '' ) {
-        $options = get_option( WPPY_PREFIX . "_{$section}" );
+        $options = get_option( "wppy_{$section}", array() );
 
-        if ( isset( $options[ $option ] ) ) {
+        if ( is_array( $options ) && isset( $options[ $option ] ) ) {
             return $options[ $option ];
         }
 
