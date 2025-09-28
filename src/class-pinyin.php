@@ -171,47 +171,64 @@ if ( !class_exists( PinYin::class ) ) {
          * @return string
          */
         public function add_zhuyin( string $content_original ) {
-            $preg_array = array(
-                '/<a .*?>.*?<\/a>/',
-                '/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/',
-                '/\<ruby\>(.*)\<\/ruby\>/',
-                '/\<strong\>(.*)\<\/strong\>/',
-            );
-            $matches = $this->preg_match_to_md5( $content_original , $preg_array );
+            try {
+                $preg_array = array(
+                    '/<a .*?>.*?<\/a>/',
+                    '/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/',
+                    '/\<ruby\>(.*)\<\/ruby\>/',
+                    '/\<strong\>(.*)\<\/strong\>/',
+                );
+                $matches = $this->preg_match_to_md5( $content_original , $preg_array );
 
-            $pinyin = new PinYinClass();
-            $html_tags = self::ZHUYIN_ELE;
-            $dom = new Dom;
-            $dom->loadStr( $matches['content'] );
+                $pinyin = new PinYinClass();
+                $html_tags = self::ZHUYIN_ELE;
+                $dom = new Dom;
+                $dom->loadStr( $matches['content'] );
 
-            foreach( explode(',' , $html_tags) as $tag ) {
-                foreach ( $dom->find($tag) as $line ) {
-                    $ruby_line = '<ruby>';
-                    foreach ( my_mb_str_split( $line->text ) as $char ) {
-                        if ( preg_match( "/[\x{4e00}-\x{9fa5}]/u", $char ) ) {
-                            $pinyin_result = PinYinClass::sentence( $char );
-                            $pinyin_str = (string) $pinyin_result;
-                            $ruby_line .= "{$char}<rp>(</rp><rt>{$pinyin_str}</rt><rp>)</rp>";
-                        } else {
-                            $ruby_line .= '</ruby>';
-                            $ruby_line .= $char;
-                            $ruby_line .= '<ruby>';
+                foreach( explode(',' , $html_tags) as $tag ) {
+                    $elements = $dom->find($tag);
+                    if (!$elements) {
+                        continue;
+                    }
+                    
+                    foreach ( $elements as $line ) {
+                        if (!$line || !$line->text) {
+                            continue;
+                        }
+                        
+                        $ruby_line = '<ruby>';
+                        foreach ( my_mb_str_split( $line->text ) as $char ) {
+                            if ( preg_match( "/[\x{4e00}-\x{9fa5}]/u", $char ) ) {
+                                $pinyin_result = PinYinClass::sentence( $char );
+                                $pinyin_str = (string) $pinyin_result;
+                                $ruby_line .= "{$char}<rp>(</rp><rt>{$pinyin_str}</rt><rp>)</rp>";
+                            } else {
+                                $ruby_line .= '</ruby>';
+                                $ruby_line .= $char;
+                                $ruby_line .= '<ruby>';
+                            }
+                        }
+                        $ruby_line .= '</ruby>';
+
+                        if ( method_exists( $line, 'firstChild' ) && $line->hasChildren() ) {
+                            try {
+                                $line->firstChild()->setText( $ruby_line );
+                            } catch ( \Exception $e ) {
+                                continue;
+                            }
                         }
                     }
-                    $ruby_line .= '</ruby>';
-
-                    if ( method_exists( $line, 'firstChild' ) ) {
-                        $line->firstChild()->setText( $ruby_line );
-                    }
                 }
-            }
 
-            if( isset( $matches['search'] ) && $matches['replace'] ) {
-                $dom = str_replace( $matches['search'], $matches['replace'], (string)$dom );
-                $dom = str_replace( $this->add_ruby_tag( $matches['search'] ), $matches['replace'], (string)$dom );
-            }
+                if( isset( $matches['search'] ) && $matches['replace'] ) {
+                    $dom = str_replace( $matches['search'], $matches['replace'], (string)$dom );
+                    $dom = str_replace( $this->add_ruby_tag( $matches['search'] ), $matches['replace'], (string)$dom );
+                }
 
-            return $dom;
+                return $dom;
+            } catch ( \Exception $e ) {
+                return $content_original;
+            }
         }
 
         /**
