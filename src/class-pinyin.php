@@ -258,19 +258,13 @@ if ( !class_exists( PinYin::class ) ) {
          */
         public function wppinyin_admin_scripts( string $hook ) {
             if( 'post.php' === $hook || 'post-new.php' === $hook ) {
-                /** 加载手动注音功能 */
                 $deps = array(
                     'wp-element', 'wp-editor', 'wp-i18n',
                     'wp-rich-text', 'wp-compose','wp-components',
                 );
 
-                /** 加载手动注音功能 */
                 wp_enqueue_script( 'wppy_gutenberg', WPPY_PLUGIN_URL . 'assets/js/wppy-gutenberg.js' , $deps , WPPY_VERSION, true );
-
-                $dataToBePassed = array(
-                    'url'   => WPPY_PLUGIN_URL . '/assets/',
-                );
-                wp_localize_script( 'wppy_gutenberg', 'assets', $dataToBePassed );
+                wp_enqueue_style( 'wppy_gutenberg_css', WPPY_PLUGIN_URL . 'assets/css/wppy-gutenberg.css', array(), WPPY_VERSION );
             }
         }
 

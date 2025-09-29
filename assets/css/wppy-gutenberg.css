@@ -1,0 +1,40 @@
+.wppy-pinyin-popover {
+    z-index: 999999;
+}
+
+.wppy-pinyin-popover .components-popover__content {
+    min-width: 250px;
+}
+
+.wppy-pinyin-popover .components-text-control__input {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.wppy-pinyin-popover .components-button {
+    margin-left: 8px;
+}
+
+.wppy-pinyin-popover .components-button:first-child {
+    margin-left: 0;
+}
+
+.toolbar-button-with-text.wppy_nihao {
+    position: relative;
+}
+
+.toolbar-button-with-text.wppy_nihao div {
+    vertical-align: middle;
+}
+
+.toolbar-button-with-text.wppy_nihao svg {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.toolbar-button-with-text.wppy_nihao:hover svg {
+    opacity: 1;
+}
+
+.toolbar-button-with-text.wppy_nihao.is-pressed svg {
+    opacity: 1;
+}
