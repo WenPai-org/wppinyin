@@ -1,0 +1,56 @@
+ruby {
+    display: ruby !important;
+    ruby-position: over !important;
+    ruby-align: center !important;
+    line-height: 1.8 !important;
+    margin: 0.1em 0 !important;
+}
+
+rt {
+    display: ruby-text !important;
+    font-size: 0.5em !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+    color: #666666 !important;
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.02em !important;
+    margin-top: 0.1em !important;
+    opacity: 0.85 !important;
+}
+
+rp {
+    display: ruby-text-container !important;
+    font-size: 0.5em !important;
+    color: #999999 !important;
+    opacity: 0.7 !important;
+}
+
+@supports not (ruby-position: over) {
+    ruby {
+        display: inline-block !important;
+        position: relative !important;
+        vertical-align: baseline !important;
+        margin: 0.1em 0.05em !important;
+        padding-top: 0.8em !important;
+    }
+    
+    rt {
+        position: absolute !important;
+        top: -0.8em !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        font-size: 0.5em !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+        color: #666666 !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.02em !important;
+        opacity: 0.85 !important;
+        text-align: center !important;
+    }
+    
+    rp {
+        display: none !important;
+    }
+}

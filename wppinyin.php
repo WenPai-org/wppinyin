@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WPPinyin
  * Description: 将汉语拼音的应用规则体系引入 WordPress 网站，对文章内容进行拼音标注等。
- * Author: WenPai.org
+ * Author: WPPinyin.com
  * Author URI: https://wppinyin.com/
  * Version: 1.1.0
  * License: GPLv3

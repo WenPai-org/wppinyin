@@ -42,12 +42,12 @@ if( ! function_exists( 'wppy_get_registered_post_types' ) ) {
  * @return array
  */
 if ( ! function_exists( 'my_mb_str_split' ) ) {
-    function my_mb_str_split( string $str, int $split_length = 1, string $charset = 'UTF-8' ): array {
+    function my_mb_str_split( string $str, int $split_length = 1, string $charset = 'UTF-8' ) {
         if ( 1 === func_num_args() ) {
             return preg_split( '/(?<!^)(?!$)/u', $str );
         }
         if ( $split_length < 1 ) {
-            return false;
+            return array();
         }
 
         $len = mb_strlen( $str, $charset );
@@ -90,5 +90,32 @@ if ( ! function_exists( 'wppy_add_tinymce_plugin' ) ) {
         $plugin_array['wppy_code_button'] = WPPY_PLUGIN_URL . 'assets/js/mce.js';
 
         return $plugin_array;
+    }
+}
+
+if ( ! function_exists( 'wppy_get_cache_hit_rate' ) ) {
+    function wppy_get_cache_hit_rate() {
+        $stats = get_option( 'wppy_performance_stats', array() );
+        $hits = isset( $stats['cache_hits'] ) ? $stats['cache_hits'] : 0;
+        $total = isset( $stats['total_requests'] ) ? $stats['total_requests'] : 1;
+        return round( ( $hits / $total ) * 100, 1 );
+    }
+}
+
+if ( ! function_exists( 'wppy_get_avg_processing_time' ) ) {
+    function wppy_get_avg_processing_time() {
+        $stats = get_option( 'wppy_performance_stats', array() );
+        $total_time = isset( $stats['total_time'] ) ? $stats['total_time'] : 0;
+        $total_requests = isset( $stats['total_requests'] ) ? $stats['total_requests'] : 1;
+        return round( $total_time / $total_requests, 2 );
+    }
+}
+
+if ( ! function_exists( 'wppy_get_pinyin_coverage' ) ) {
+    function wppy_get_pinyin_coverage() {
+        $stats = get_option( 'wppy_performance_stats', array() );
+        $chinese_chars = isset( $stats['chinese_chars'] ) ? $stats['chinese_chars'] : 0;
+        $pinyin_chars = isset( $stats['pinyin_chars'] ) ? $stats['pinyin_chars'] : 0;
+        return $chinese_chars > 0 ? round( ( $pinyin_chars / $chinese_chars ) * 100, 1 ) : 0;
     }
 }
